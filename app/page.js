@@ -1,7 +1,10 @@
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <h1>Hello World</h1>
-  );
+export default function WeatherPage() {
+    return (
+        <div>
+            <h1>Weather</h1>
+            <p>Weather information goes here.</p>
+        </div>
+    );
 }
