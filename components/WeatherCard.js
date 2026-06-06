@@ -1,19 +1,23 @@
 import Image from "next/image";
 
 export default function WeatherCard({ weather }) {
-  const icon = weather.raw?.weather?.[0]?.icon;
+  const icon = weather.weather?.[0]?.icon;
+  const iconDescription = weather.weather?.[0].description;
   const iconUrl = icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : null;
-  const humidity = weather.raw?.main?.humidity;
-  const wind = weather.raw?.wind?.speed;
+  const humidity = weather.main?.humidity;
+  const wind = weather.wind?.speed;
+  const main = weather.main
+  console.log(weather)
 
   return (
     <div className="border border-gray-200 rounded-2xl p-8 shadow-lg bg-white w-full max-w-md text-center">
       {iconUrl && (
         <Image src={iconUrl} alt={weather.condition} className="mx-auto" width={96} height={96} />
       )}
+      <p className="text-1xl font-extralight text-gray-900 my-4">{iconDescription}</p>
       <h2 className="text-2xl font-bold text-gray-800 mt-2">{weather.city}</h2>
       <p className="text-5xl font-extralight text-gray-900 my-4">
-        {weather.temp}°C
+        {main.temp}°C
       </p>
       <p className="text-lg text-gray-500 capitalize">{weather.condition}</p>
 
