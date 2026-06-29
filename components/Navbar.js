@@ -8,8 +8,9 @@ export default function Navbar() {
 
     const links = [
         { href: "/", label: "Weather" },
+        { href: "/dashboard", label: "Dashboard" },
         { href: "/about", label: "About" },
-        { href: "/contacts", label: "Contacts" },
+        { href: "/login", label: "Login" },
     ];
 
     return (
