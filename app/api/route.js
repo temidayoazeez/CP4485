@@ -1,3 +1,5 @@
+import { connectToDB } from "./db";
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const city = searchParams.get("city") || "St. John's";
@@ -22,9 +24,57 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const weatherData = await request.json();
-  return new Response(JSON.stringify({ message: "Weather data added to dashboard" }), {
+  const body = await request.json();
+  const city = typeof body === "string" ? body : body?.city || body?.name;
+
+  if (!city || typeof city !== "string") {
+    return new Response(JSON.stringify({ error: "Request body must include a city string or { city: '...' }." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const { db } = await connectToDB();
+  const existingCity = await db.collection("cities").findOne({ city });
+
+  if (existingCity) {
+    return new Response(JSON.stringify({ message: "City already exists", city }), {
+      status: 409,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const result = await db.collection("cities").insertOne({ city });
+
+  return new Response(JSON.stringify({ message: "City added to dashboard", insertedId: result.insertedId }), {
     status: 201,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+export async function DELETE(request) {
+  const body = await request.json();
+  const city = typeof body === "string" ? body : body?.city || body?.name;
+
+  if (!city || typeof city !== "string") {
+    return new Response(JSON.stringify({ error: "Request body must include a city string or { city: '...' }." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const { db } = await connectToDB();
+  const deleted = await db.collection("cities").deleteOne({ city });
+
+  if (deleted.deletedCount === 0) {
+    return new Response(JSON.stringify({ message: "City not found", city }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  return new Response(JSON.stringify({ message: "City removed from dashboard", city }), {
+    status: 200,
     headers: { "Content-Type": "application/json" },
   });
 }

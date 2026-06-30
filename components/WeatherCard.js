@@ -11,25 +11,27 @@ export default function WeatherCard({ weather, isDashboard = false }) {
   console.log("Weather: ", weather)
 
   return (
-    <div className="border border-gray-200 rounded-2xl p-8 shadow-lg bg-white w-full max-w-md text-center">
+    <div className="w-full max-w-md rounded-[2rem] border border-gray-200/80 bg-white/95 p-8 text-center shadow-[0_25px_60px_-25px_rgba(15,23,42,0.45)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:shadow-[0_35px_90px_-30px_rgba(15,23,42,0.5)]">
+      <h1 className="text-lg font-semibold tracking-wide text-slate-700 uppercase">{weather.name}</h1>
       {iconUrl && (
         <Image src={iconUrl} alt={weather.condition} className="mx-auto" width={96} height={96} />
       )}
-      <p className="text-1xl font-extralight text-gray-900 my-4">{iconDescription}</p>
-      <h2 className="text-2xl font-bold text-gray-800 mt-2">{weather.city}</h2>
-      <p className="text-5xl font-extralight text-gray-900 my-4">
+      <p className="text-sm font-medium text-slate-500 mb-3">{iconDescription}</p>
+      <h2 className="text-3xl font-extrabold text-slate-900 mt-2">{weather.city}</h2>
+      <p className="text-6xl font-black text-slate-900 my-4">
         {main.temp}°C
       </p>
-      <p className="text-lg text-gray-500 capitalize">{weather.condition}</p>
+      <p className="text-base text-slate-600 capitalize">{weather.condition}</p>
 
       {(humidity || wind) && (
-        <div className="flex justify-center gap-6 mt-6 pt-4 border-t border-gray-100 text-sm text-gray-500">
-          {humidity && <span>💧 Humidity: {humidity}%</span>}
-          {wind && <span>🌬️ Wind: {wind} km/h</span>}
+        <div className="mt-6 grid gap-3 rounded-3xl border border-slate-200/80 bg-slate-50/80 p-4 text-sm text-slate-600 shadow-sm">
+          {humidity && <span className="block">💧 Humidity: <span className="font-semibold text-slate-800">{humidity}%</span></span>}
+          {wind && <span className="block">🌬️ Wind: <span className="font-semibold text-slate-800">{wind} km/h</span></span>}
         </div>
       )}
-      <br />
-      <DashboardButton weather={weather} isDashboard={isDashboard} />
+      <div className="mt-7">
+        <DashboardButton weather={weather} isDashboard={isDashboard} />
+      </div>
     </div>
   );
 }
