@@ -7,11 +7,11 @@ export default async function DashboardPage() {
   console.log(cities)
 
   return (
-    <div className="flex flex-col items-center py-10 px-4">
+    <div className="flex flex-col items-center gap-6 py-10 px-4">
       <h1 className="text-4xl font-bold mb-2">📊 Dashboard</h1>
       <p className="text-gray-500 mb-8">Welcome to your dashboard</p>
       {Object.values(cities).map((city, index) => (
-        <WeatherCard key={index} weather={city}/>
+        <WeatherCard key={index} weather={city} isDashboard={true} />
       ))}
     </div>
   );

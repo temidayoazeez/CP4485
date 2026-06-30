@@ -1,7 +1,7 @@
 import Image from "next/image";
 import DashboardButton from "./DashboardButton";
 
-export default function WeatherCard({ weather }) {
+export default function WeatherCard({ weather, isDashboard = false }) {
   const icon = weather.weather?.[0]?.icon;
   const iconDescription = weather.weather?.[0].description;
   const iconUrl = icon ? `https://openweathermap.org/img/wn/${icon}@2x.png` : null;
@@ -28,8 +28,8 @@ export default function WeatherCard({ weather }) {
           {wind && <span>🌬️ Wind: {wind} km/h</span>}
         </div>
       )}
-      <br></br>
-      <DashboardButton weather={{weather}} />
+      <br />
+      <DashboardButton weather={weather} isDashboard={isDashboard} />
     </div>
   );
 }
