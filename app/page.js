@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import WeatherCard from "@/components/WeatherCard";
+import {useState} from "react";
 
 export default function WeatherPage() {
   const [city, setCity] = useState("");
@@ -10,25 +10,25 @@ export default function WeatherPage() {
   const [error, setError] = useState("");
 
   const fetchWeather = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      const q = city ? `?city=${encodeURIComponent(city)}` : "";
-      const response = await fetch(`/api${q}`);
-      const data = await response.json();
-      if (!response.ok || data?.error) {
-        throw new Error(data?.error?.message || data?.error || "Failed to fetch");
+      setLoading(true);
+      setError("");
+      try {
+          const q = city ? `?city=${encodeURIComponent(city)}` : "";
+          const response = await fetch(`/api${q}`);
+          const data = await response.json();
+          if (!response.ok || data?.error) {
+              throw new Error(data?.error?.message || data?.error || "Failed to fetch");
+          }
+          setWeather(data);
+      } catch (err) {
+          setError(err.message || "Unknown error");
+          setWeather(null);
+      } finally {
+          setLoading(false);
       }
-      setWeather(data);
-    } catch (err) {
-      setError(err.message || "Unknown error");
-      setWeather(null);
-    } finally {
-      setLoading(false);
-    }
   };
 
-  return (
+   return (
     <div className="flex flex-col items-center py-10 px-4">
       <h1 className="text-4xl font-bold mb-2">☀️ Current Weather</h1>
       <p className="text-gray-500 mb-8">Check the weather in any city</p>
@@ -48,7 +48,7 @@ export default function WeatherPage() {
         </div>
       )}
 
-      {weather && !loading && <WeatherCard weather={weather} />}
+      {weather && !loading && <WeatherCard weather={weather}/>}
     </div>
   );
 }

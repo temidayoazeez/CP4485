@@ -1,4 +1,5 @@
 import Image from "next/image";
+import DashboardButton from "./DashboardButton";
 
 export default function WeatherCard({ weather }) {
   const icon = weather.weather?.[0]?.icon;
@@ -7,7 +8,7 @@ export default function WeatherCard({ weather }) {
   const humidity = weather.main?.humidity;
   const wind = weather.wind?.speed;
   const main = weather.main
-  console.log(weather)
+  console.log("Weather: ", weather)
 
   return (
     <div className="border border-gray-200 rounded-2xl p-8 shadow-lg bg-white w-full max-w-md text-center">
@@ -27,6 +28,8 @@ export default function WeatherCard({ weather }) {
           {wind && <span>🌬️ Wind: {wind} km/h</span>}
         </div>
       )}
+      <br></br>
+      <DashboardButton weather={{weather}} />
     </div>
   );
 }

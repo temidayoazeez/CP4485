@@ -20,3 +20,12 @@ export async function GET(request) {
     headers: { "Content-Type": "application/json" },
   });
 }
+
+export async function POST(request) {
+  const weatherData = await request.json();
+  return new Response(JSON.stringify({ message: "Weather data added to dashboard" }), {
+    status: 201,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
