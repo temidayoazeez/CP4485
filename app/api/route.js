@@ -23,15 +23,30 @@ export async function GET(request) {
   });
 }
 
-export async function POST(request) {
-  const body = await request.json();
+function validateRequest(body) {
   const city = typeof body === "string" ? body : body?.city || body?.name;
 
   if (!city || typeof city !== "string") {
-    return new Response(JSON.stringify({ error: "Request body must include a city string or { city: '...' }." }), {
+    return { isValid: false, error: "Request body must include a city string or { city: '...' }." };
+  }
+
+  return { isValid: true };
+}
+
+function returnError() {
+      return new Response(JSON.stringify({ error }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
+}
+
+export async function POST(request) {
+  const body = await request.json();
+  const { isValid, error } = validateRequest(body);
+  const city = typeof body === "string" ? body : body?.city || body?.name;
+
+  if (!isValid) {
+    return returnError();
   }
 
   const { db } = await connectToDB();
@@ -54,13 +69,11 @@ export async function POST(request) {
 
 export async function DELETE(request) {
   const body = await request.json();
+  const { isValid, error } = validateRequest(body);
   const city = typeof body === "string" ? body : body?.city || body?.name;
 
-  if (!city || typeof city !== "string") {
-    return new Response(JSON.stringify({ error: "Request body must include a city string or { city: '...' }." }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (!isValid) {
+    return returnError();
   }
 
   const { db } = await connectToDB();
@@ -78,4 +91,3 @@ export async function DELETE(request) {
     headers: { "Content-Type": "application/json" },
   });
 }
-

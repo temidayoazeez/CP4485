@@ -4,7 +4,6 @@ export default async function DashboardPage() {
 
   const response = await fetch("http://localhost:3000/api/dashboard")
   const cities = await response.json();
-  console.log(cities)
 
   return (
     <div className="flex flex-col items-center gap-6 py-10 px-4">

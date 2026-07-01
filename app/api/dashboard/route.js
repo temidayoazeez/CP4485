@@ -15,7 +15,6 @@ export async function GET(request) {
 
     let cityNames = {};
     for (const city of cities) {
-        console.log(city.city)
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city.city)}&units=metric&appid=${apiKey}`;
         const res = await fetch(url);
         const data = await res.json();
